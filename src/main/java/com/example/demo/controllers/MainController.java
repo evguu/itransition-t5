@@ -11,4 +11,9 @@ public class MainController {
     public String greeting(Map<String, Object> model) {
         return "index";
     }
+
+    @GetMapping("/getData")
+    public String getCanvas(Map<String, Object> model) {
+        return "index";
+    }
 }
