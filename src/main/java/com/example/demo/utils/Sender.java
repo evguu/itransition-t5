@@ -8,13 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Sender {
-    private static final ObjectWriter ow = includeClassNameInObjectMapper(new ObjectMapper())
-            .writer().withDefaultPrettyPrinter();
-
-    private static ObjectMapper includeClassNameInObjectMapper(ObjectMapper om){
-        om.enable(SerializationFeature.WRAP_ROOT_VALUE);
-        return om;
-    }
+    private static final ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     public static String toJSON(Object obj){
         try {
