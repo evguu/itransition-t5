@@ -1,22 +1,19 @@
 package com.example.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonRawValue;
-
 public class Drawable {
-    private static Integer lastId = 0;
+    private static Integer lastId = -1;
 
     private final Integer id;
-    @JsonRawValue
-    private final String json;
+    private final String element;
 
-    public Drawable(String json) {
+    public Drawable(String element) {
         this.id = ++lastId;
-        this.json = json;
+        this.element = element;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getJson() {return json;}
+    public String getElement() {return element;}
 }

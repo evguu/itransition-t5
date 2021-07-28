@@ -14,9 +14,8 @@ import java.util.Map;
 @Controller
 public class MainController {
 
-    private static final List<Drawable> drawables = new ArrayList<>()
-    {{
-        add(new Drawable("{\"works\":true}"));
+    private static final List<Drawable> drawables = new ArrayList<>() {{
+        add(new Drawable("<p style=\"position:relative;top:50px;left:50px;\">TEST ELEMENT</p>"));
     }};
 
     @GetMapping("/")
@@ -38,8 +37,8 @@ public class MainController {
 
     @MessageMapping("/add")
     @SendTo("/recv/add")
-    public Drawable addElement(@RequestBody String json, Map<String, Object> model) {
-        Drawable drawable = new Drawable(json);
+    public Drawable addElement(@RequestBody String element, Map<String, Object> model) {
+        Drawable drawable = new Drawable(element);
         drawables.add(drawable);
         return drawable;
     }

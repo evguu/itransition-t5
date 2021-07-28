@@ -14,8 +14,23 @@
     <script src="/js/main-head.js"></script>
 </head>
 <body>
-<button class="btn" id="add-btn">Add</button>
-<button class="btn" id="del-btn">Del</button>
+<div class="layer-container">
+    <div class="layer" style="top: 0px; left:100px;">
+       Layer1
+    </div>
+    <div class="layer" style="top: 100px; left:100px;">
+        Layer2
+    </div>
+</div>
+
+<div class="my-toolbar">
+    <div class="btn-group-vertical" role="group">
+        <button type="button" class="btn" id="text-btn">Text</button>
+        <button type="button" class="btn" id="note-btn">Note</button>
+        <button type="button" class="btn" id="curve-btn">Curve</button>
+        <button type="button" class="btn" id="eraser-btn">Eraser</button>
+    </div>
+</div>
 
 <script src="/js/main.js"></script>
 </body>
