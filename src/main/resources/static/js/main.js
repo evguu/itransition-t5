@@ -1,14 +1,16 @@
-let socket = new SockJS('/gs-guide-websocket');
-let stompClient = Stomp.over(socket);
-stompClient.connect({}, function (frame) {
-    console.log('Connected: ' + frame);
-    stompClient.subscribe('/recv/add', function (drawable) {
-        console.log("got a message!")
-        console.log(JSON.parse(drawable.body));
-    });
-});
+function addDrawable(preDrawable)
+{
+    preDrawable = {'name': 'test'};
 
-$("#btn").click(()=>{
-    stompClient.send("/send/add", {}, JSON.stringify({'name': 'test'}));
-    console.log("i work!");
-});
+    stompClient.send("/send/add", {}, JSON.stringify(preDrawable));
+}
+
+function delDrawable(drawable)
+{
+    drawable = {'id': 1, 'json':{'name': 'test'}};
+
+    stompClient.send("/send/del", {}, JSON.stringify({'id': drawable.id}));
+}
+
+$("#add-btn").click(()=>addDrawable(""));
+$("#del-btn").click(()=>delDrawable(""));

@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.domain.Drawable;
+import com.example.demo.domain.IdWrapper;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -30,8 +31,8 @@ public class MainController {
 
     @MessageMapping("/del")
     @SendTo("/recv/del")
-    public Integer delElement(Integer id, Map<String, Object> model) {
-        drawables.removeIf(drawable -> drawable.getId().equals(id));
+    public IdWrapper delElement(@RequestBody IdWrapper id, Map<String, Object> model) {
+        drawables.removeIf(drawable -> drawable.getId().equals(id.getId()));
         return id;
     }
 
