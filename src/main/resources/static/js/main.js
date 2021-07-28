@@ -12,11 +12,7 @@ let activeTool;
 function renderAll() {
     $(".layer-container").html('');
     for (let drawable of drawables) {
-        $("<div/>", {
-            id: drawable.id,
-            "class": "layer",
-            append: drawable.element
-        }).appendTo('.layer-container');
+        $(drawable.element).prop("id", drawable.id).appendTo('.layer-container');
     }
     $(".layer").click(onLayerClick);
     if (activeTool === Tools.MOVE) {
@@ -36,6 +32,7 @@ function delDrawable(id) {
 function onLayerClick(e) {
     let id = e.currentTarget.id;
     let element = e.currentTarget.innerHTML;
+
     if (activeTool === Tools.ERASER) {
         delDrawable(id);
     }
@@ -47,21 +44,22 @@ function onLayerClick(e) {
 
 function toggleMove(val) {
     if (val) {
-        let layers = $(".draggable");
+        let layers = $(".layer");
         layers.draggable({
             cursor: "move",
             containment: ".layer-container",
             scroll: false,
             stop: function (event, ui) {
-                let id = event.target.parentNode.id;
-                let element = event.target.parentNode.innerHTML;
+                let id = event.target.id;
+                let element = event.target.outerHTML;
+                console.log(event);
                 delDrawable(id);
                 addDrawable(element);
             }
         });
         layers.draggable("option", "disabled", false);
     } else {
-        let layers = $(".draggable");
+        let layers = $(".layer");
         layers.draggable("option", "disabled", true);
 
     }
@@ -108,9 +106,9 @@ $(".layer-container").click((e) => {
     let y = e.offsetY;
     if (activeTool === Tools.TEXT){
         addDrawable($("<div/>", {
-            "class": "tools-text draggable",
+            "class": "tools-text layer",
             css: {
-                position: "relative",
+                position: "absolute",
                 top:y+"px",
                 left:x+"px"
             },
