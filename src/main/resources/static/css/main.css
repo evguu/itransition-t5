@@ -53,4 +53,5 @@ html, body {
     font-size:22px;
     text-align:center;
     border-bottom-right-radius: 60px 5px;
+    box-shadow: 2px 2px 5px grey;
 }
