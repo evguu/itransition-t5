@@ -2,20 +2,24 @@ package com.example.demo.controllers;
 
 import com.example.demo.domain.Drawable;
 import com.example.demo.domain.IdWrapper;
+import com.example.demo.domain.StringWrapper;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class MainController {
 
-    private static final List<Drawable> drawables = new ArrayList<>() {{
-        add(new Drawable("<p style=\"position:relative;top:50px;left:50px;\">TEST ELEMENT</p>"));
+    private static final List<Drawable> drawables = new CopyOnWriteArrayList<>() {{
+        add(new Drawable("<div class=\"tools-text draggable\" style=\"position:relative;top:50px;left:50px;\">TEST ELEMENT</div>"));
+        add(new Drawable("<div class=\"tools-text draggable\" style=\"position:relative;top:70px;left:50px;\">TEST ELEMENT</div>"));
+        add(new Drawable("<div class=\"tools-text draggable\" style=\"position:relative;top:90px;left:50px;\">TEST ELEMENT</div>"));
+        add(new Drawable("<div class=\"tools-text draggable\" style=\"position:relative;top:110px;left:50px;\">TEST ELEMENT</div>"));
     }};
 
     @GetMapping("/")
@@ -37,8 +41,8 @@ public class MainController {
 
     @MessageMapping("/add")
     @SendTo("/recv/add")
-    public Drawable addElement(@RequestBody String element, Map<String, Object> model) {
-        Drawable drawable = new Drawable(element);
+    public Drawable addElement(StringWrapper element, Map<String, Object> model) {
+        Drawable drawable = new Drawable(element.getStr());
         drawables.add(drawable);
         return drawable;
     }

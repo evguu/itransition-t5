@@ -1,8 +1,21 @@
-body {
-    background: blue;
+html, body {
+    margin: 0;
+    padding: 0;
 }
 
-.my-toolbar{
+.background {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.pre-level-container {
+    justify-content: center;
+}
+
+.my-toolbar {
     position: absolute;
     top: 50%;
     -webkit-transform: translateY(-50%);
@@ -12,11 +25,13 @@ body {
 
 .layer-container {
     position: relative;
-    background: antiquewhite;
-    width: 500px;
-    height:500px;
+    background: floralwhite;
+    box-shadow: 10px 10px 5px grey;
+    width: 800px;
+    height: 700px;
     overflow: hidden;
-    margin-left: 100px;
+    transform: translate(50vw, 50vh) translate(-50%, -50%);
+    padding: 0;
 }
 
 .layer {
