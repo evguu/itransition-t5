@@ -15,12 +15,7 @@ import java.util.Map;
 @Controller
 public class MainController {
 
-    private static final List<Drawable> drawables = new CopyOnWriteArrayList<>() {{
-        add(new Drawable("<div class=\"tools-text draggable\" style=\"position:relative;top:50px;left:50px;\">TEST ELEMENT</div>"));
-        add(new Drawable("<div class=\"tools-text draggable\" style=\"position:relative;top:70px;left:50px;\">TEST ELEMENT</div>"));
-        add(new Drawable("<div class=\"tools-text draggable\" style=\"position:relative;top:90px;left:50px;\">TEST ELEMENT</div>"));
-        add(new Drawable("<div class=\"tools-text draggable\" style=\"position:relative;top:110px;left:50px;\">TEST ELEMENT</div>"));
-    }};
+    private static final List<Drawable> drawables = new CopyOnWriteArrayList<>();
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {

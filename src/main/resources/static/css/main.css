@@ -11,7 +11,7 @@ html, body {
     z-index: -1;
 }
 
-.pre-level-container {
+.pre-layer-container {
     justify-content: center;
 }
 
@@ -21,12 +21,13 @@ html, body {
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+    box-shadow: 2px 2px 5px grey;
 }
 
 .layer-container {
     position: relative;
     background: floralwhite;
-    box-shadow: 10px 10px 5px grey;
+    box-shadow: 6px 6px 5px grey;
     width: 800px;
     height: 700px;
     overflow: hidden;
@@ -38,4 +39,5 @@ html, body {
     position: absolute;
     top: 0;
     left: 0;
+    background: red;
 }

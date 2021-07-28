@@ -12,7 +12,6 @@ let activeTool;
 function renderAll() {
     $(".layer-container").html('');
     for (let drawable of drawables) {
-        console.log(drawable)
         $("<div/>", {
             id: drawable.id,
             "class": "layer",
@@ -62,9 +61,7 @@ function toggleMove(val) {
         });
         layers.draggable("option", "disabled", false);
     } else {
-
         let layers = $(".draggable");
-
         layers.draggable("option", "disabled", true);
 
     }
@@ -106,6 +103,20 @@ $("#eraser-btn").click(() => {
 });
 
 
-$(".layer-container").click(() => {
-
-})
+$(".layer-container").click((e) => {
+    let x = e.offsetX;
+    let y = e.offsetY;
+    if (activeTool === Tools.TEXT){
+        addDrawable($("<div/>", {
+            "class": "tools-text draggable",
+            css: {
+                position: "relative",
+                top:y+"px",
+                left:x+"px"
+            },
+            append: "REEEEEEEE"
+        }).prop("outerHTML"));
+    }
+}).children().click(function(e) {
+    return false;
+});
