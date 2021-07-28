@@ -37,8 +37,20 @@ html, body {
 
 .layer {
     position: absolute;
-    top: 0;
-    left: 0;
-    background: red;
     width: auto;
+}
+
+.post-it-note {
+    margin: 25px;
+    width: 250px;
+    min-height:250px;
+    max-height:250px;
+    padding-top:35px;
+    background: #ffff88;
+    background: linear-gradient(135deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%);
+    border:1px solid #E8E8E8;
+    border-top:60px solid #fdfd86;
+    font-size:22px;
+    text-align:center;
+    border-bottom-right-radius: 60px 5px;
 }
