@@ -28,12 +28,17 @@ function toggleMove(val) {
         containment: ".layer-container",
         scroll: false,
         stop: function (event, ui) {
+            $(event.target).resizable("disable");
             let id = event.target.id;
             let element = event.target.outerHTML;
             delDrawable(id);
             addDrawable(element);
         }
     });
+
+    let notes = $(".post-it-note");
+    notes.resizable();
+
     layers.draggable("option", "disabled", !val);
 }
 
@@ -105,9 +110,9 @@ $(".layer-container").click(function (e) {
             css: {
                 position: "absolute",
                 top:y+"px",
-                left:x+"px"
+                left:x+"px",
             },
-            append: "Text..."
+            append: "Note..."
         }).prop("outerHTML"));
     }
 })
