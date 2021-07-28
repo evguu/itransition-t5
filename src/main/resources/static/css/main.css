@@ -42,6 +42,7 @@ html, body {
 
 .post-it-note {
     min-width: 100px;
+    max-width: 500px;
     min-height:100px;
     background: #ffff88;
     background: linear-gradient(135deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%);
@@ -49,4 +50,9 @@ html, body {
     text-align:center;
     border-bottom-right-radius: 60px 5px;
     box-shadow: 2px 2px 5px grey;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+    padding: 10px;
 }

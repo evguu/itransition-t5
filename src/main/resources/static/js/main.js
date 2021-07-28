@@ -28,6 +28,7 @@ function toggleMove(val) {
         containment: ".layer-container",
         scroll: false,
         stop: function (event, ui) {
+            $(event.target).resizable();
             $(event.target).resizable("disable");
             let id = event.target.id;
             let element = event.target.outerHTML;
@@ -37,18 +38,28 @@ function toggleMove(val) {
     });
 
     let notes = $(".post-it-note");
-    notes.resizable();
+    notes.resizable({
+            stop: function (event, ui) {
+                if ($(event.target).hasClass("post-it-note"))
+                $(event.target).resizable("disable");
+                let id = event.target.id;
+                let element = event.target.outerHTML;
+                delDrawable(id);
+                addDrawable(element);
+            }
+        }
+    );
 
     layers.draggable("option", "disabled", !val);
 }
 
 let isCurrentlyEditing = false;
 
-function toggleEdit(val){
+function toggleEdit(val) {
     let tt = $(".tools-text");
     tt.prop("contenteditable", val);
     if (val) {
-        tt.on('focus', (event)=>{
+        tt.on('focus', (event) => {
             isCurrentlyEditing = true;
         })
         tt.on('blur', (event) => {
@@ -71,7 +82,8 @@ $(document).ready(() => {
     Particles.init({
         selector: '.background',
         maxParticles: 50,
-        connectParticles: true});
+        connectParticles: true
+    });
 })
 
 function onLayerClick(e) {
@@ -84,33 +96,33 @@ function onLayerClick(e) {
 }
 
 $(".layer-container").click(function (e) {
-    if (e.target !== this)return; // Ignore any child clicks
+    if (e.target !== this) return; // Ignore any child clicks
 
-    if (isCurrentlyEditing){
+    if (isCurrentlyEditing) {
         isCurrentlyEditing = false;
         return;
     }
 
     let x = e.offsetX;
     let y = e.offsetY;
-    if (activeTool === Tools.TEXT){
+    if (activeTool === Tools.TEXT) {
         addDrawable($("<div/>", {
             "class": "tools-text layer",
             css: {
                 position: "absolute",
-                top:y+"px",
-                left:x+"px"
+                top: y + "px",
+                left: x + "px"
             },
             append: "Text..."
         }).prop("outerHTML"));
     }
-    if (activeTool === Tools.NOTE){
+    if (activeTool === Tools.NOTE) {
         addDrawable($("<div/>", {
             "class": "tools-text layer post-it-note",
             css: {
                 position: "absolute",
-                top:y+"px",
-                left:x+"px",
+                top: y + "px",
+                left: x + "px",
             },
             append: "Note..."
         }).prop("outerHTML"));
