@@ -1,7 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.pojos.drawables.Drawable;
-import com.example.demo.utils.Sender;
+import com.example.demo.domain.Drawable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class MainController {
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
-        return "index";
+        return "index.html";
     }
 
     @GetMapping("/data")
@@ -27,16 +28,18 @@ public class MainController {
         return drawables;
     }
 
-    @DeleteMapping("/data")
-    public @ResponseBody String delElement(Integer id, Map<String, Object> model) {
+    @MessageMapping("/del")
+    @SendTo("/recv/del")
+    public Integer delElement(Integer id, Map<String, Object> model) {
         drawables.removeIf(drawable -> drawable.getId().equals(id));
-        return "{}";
+        return id;
     }
 
-    @PostMapping("/data")
-    public @ResponseBody
-    String addElement(@RequestBody String json, Map<String, Object> model) {
-        drawables.add(new Drawable(json));
-        return "{}";
+    @MessageMapping("/add")
+    @SendTo("/recv/add")
+    public Drawable addElement(@RequestBody String json, Map<String, Object> model) {
+        Drawable drawable = new Drawable(json);
+        drawables.add(drawable);
+        return drawable;
     }
 }

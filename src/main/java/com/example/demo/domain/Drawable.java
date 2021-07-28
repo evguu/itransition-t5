@@ -1,4 +1,4 @@
-package com.example.demo.pojos.drawables;
+package com.example.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 
