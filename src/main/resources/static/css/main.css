@@ -45,6 +45,10 @@ html, body {
     z-index: -100;
 }
 
+.raw-canvas-data {
+    visibility: hidden;
+}
+
 .curve-preview {
     position: relative;
 }

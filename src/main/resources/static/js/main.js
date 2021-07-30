@@ -88,7 +88,7 @@ new Tool($("#curve-btn"),
     }
 ).setOnLayerContainerMouseMoveSetter(function (e) {
         if (hasCurveStarted) {
-            ctx.fillRect(e.offsetX - 2,e.offsetY - 2,4,4);
+            ctx.fillRect(e.offsetX - 2, e.offsetY - 2, 4, 4);
 
             curvePointsList.push(e.offsetX);
             curvePointsList.push(e.offsetY);
@@ -133,14 +133,15 @@ function toggleMove(val) {
         scroll: false,
         stop: function (event, ui) {
             $(event.target).resizable();
-            $(event.target).resizable("disable");
+            $(event.target).resizable("destroy");
+            $(event.target).draggable("destroy");
             let id = event.target.id;
             let element = event.target.outerHTML;
             delDrawable(id);
             addDrawable(element);
         }
     });
-    layers.draggable("option", "disabled", !val);
+    if(!val)layers.draggable("destroy");
 }
 
 function toggleEdit(val) {
@@ -179,9 +180,78 @@ function toggleResize(val) {
     }
 }
 
+function getDimensions(curvePointsList){
+    let res = {
+        width: null,
+        height: null,
+        top: null,
+        left: null,
+        offsetPoints: []
+    }
+
+    let xs = [];
+    let ys = [];
+
+    for (let i=0; i < curvePointsList.length;){
+        let x = curvePointsList[i];
+        let y = curvePointsList[i+1];
+        i += 2;
+        xs.push(x);
+        ys.push(y);
+    }
+
+    let min_x = xs.reduce(function (p, v) {
+        return ( p < v ? p : v );
+    });
+    let max_x = xs.reduce(function (p, v) {
+        return ( p > v ? p : v );
+    });
+
+    let min_y = ys.reduce(function (p, v) {
+        return ( p < v ? p : v );
+    });
+    let max_y = ys.reduce(function (p, v) {
+        return ( p > v ? p : v );
+    });
+
+    res.top = min_y;
+    res.height = max_y - min_y;
+
+    res.left = min_x;
+    res.width = max_x - min_x;
+
+    for (let i=0; i < curvePointsList.length;){
+        let x = curvePointsList[i];
+        let y = curvePointsList[i+1];
+        i += 2;
+        res.offsetPoints.push(x - res.left);
+        res.offsetPoints.push(y - res.top);
+    }
+
+    return res;
+}
+
 function processCurvePointsList(curvePointsList) {
-    drawCurve(ctx, curvePointsList);
-    console.log(curvePointsList);
+
+    let dimensions = getDimensions(curvePointsList);
+
+    addDrawable($("<div/>", {
+            "class": "layer",
+            css:{
+                width: dimensions.width + "px",
+                height: dimensions.height + "px",
+                top: dimensions.top + "px",
+                left: dimensions.left + "px"
+            },
+            append: $("<svg/>", {
+                css:{
+                    width: dimensions.width + "px",
+                    height: dimensions.height + "px",
+                },
+                append:  $("<polyline fill=\"none\" stroke=\"black\" points='" + dimensions.offsetPoints.join(" ") + "'/>")
+        })
+    }
+    ).prop("outerHTML"));
 }
 
 
