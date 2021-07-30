@@ -82,12 +82,10 @@ function renderAll() {
 }
 
 function addDrawable(element) {
-    Tool.activeTool.onDeactivate();
     stompClient.send("/send/add", {}, JSON.stringify({'str': element}));
 }
 
 function delDrawable(id) {
-    Tool.activeTool.onDeactivate();
     stompClient.send("/send/del", {}, JSON.stringify({'id': id}));
 }
 
@@ -118,6 +116,7 @@ function toggleEdit(val) {
         tt.on('blur', (event) => {
             let id = event.target.id;
             let element = event.target.outerHTML;
+
             delDrawable(id);
             addDrawable(element);
         });
@@ -129,18 +128,20 @@ function toggleResize(val) {
 
     notes.resizable({
             stop: function (event, ui) {
-                if ($(event.target).hasClass("post-it-note"))
-                    $(event.target).resizable("disable");
+                $(event.target).resizable("enable");
+                $(event.target).resizable("disable");
                 let id = event.target.id;
                 let element = event.target.outerHTML;
+
                 delDrawable(id);
                 addDrawable(element);
             }
         }
     );
+    if(val)
     notes.resizable("enable");
     if (!val) {
-        notes.resizable("disable");
+        notes.resizable("destroy");
     }
 }
 
