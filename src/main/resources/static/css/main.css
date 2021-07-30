@@ -22,6 +22,7 @@ html, body {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     box-shadow: 2px 2px 5px grey;
+    z-index: 500;
 }
 
 .layer-container {
