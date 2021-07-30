@@ -1,7 +1,8 @@
 import Tool from "./tools-module.js";
+import drawCurve from "./curve-module.js"
 
 Tool.init(
-    ".layer-container",
+    ".layer-container, .curve-preview, .pre-curve-preview",
     ".layer"
 )
 
@@ -60,7 +61,40 @@ new Tool($("#note-btn"),
     }
 );
 
-new Tool($("#curve-btn"));
+let hasCurveStarted = false;
+let curvePointsList = [];
+let ctx = $(".curve-preview").get(0).getContext("2d");
+new Tool($("#curve-btn"),
+    function () {
+        hasCurveStarted = false;
+        curvePointsList = [];
+        $(".pre-curve-preview").css("z-index", 100);
+    },
+    function () {
+        $(".pre-curve-preview").css("z-index", -100);
+        if (hasCurveStarted) {
+            hasCurveStarted = false;
+            processCurvePointsList(curvePointsList);
+            curvePointsList = [];
+        }
+    }
+).setOnLayerContainerClickSetter(function (e) {
+        hasCurveStarted = !hasCurveStarted;
+        if (!hasCurveStarted) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            processCurvePointsList(curvePointsList);
+            curvePointsList = [];
+        }
+    }
+).setOnLayerContainerMouseMoveSetter(function (e) {
+        if (hasCurveStarted) {
+            ctx.fillRect(e.offsetX - 2,e.offsetY - 2,4,4);
+
+            curvePointsList.push(e.offsetX);
+            curvePointsList.push(e.offsetY);
+        }
+    }
+);
 
 new Tool($("#eraser-btn")).setOnLayerClickSetter(function (e) {
     let id = e.currentTarget.id;
@@ -138,11 +172,16 @@ function toggleResize(val) {
             }
         }
     );
-    if(val)
-    notes.resizable("enable");
+    if (val)
+        notes.resizable("enable");
     if (!val) {
         notes.resizable("destroy");
     }
+}
+
+function processCurvePointsList(curvePointsList) {
+    drawCurve(ctx, curvePointsList);
+    console.log(curvePointsList);
 }
 
 

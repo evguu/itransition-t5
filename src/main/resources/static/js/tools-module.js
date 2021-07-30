@@ -7,6 +7,8 @@ export default class Tool {
         this.onActivate = function (e) {
             tool.onLayerClickSetter();
             tool.onLayerContainerClickSetter();
+            tool.onLayerContainerMouseMove();
+
 
             Tool.activeTool.onDeactivate();
             Tool.activeTool = tool;
@@ -18,10 +20,9 @@ export default class Tool {
             onActivate();
         };
 
-        this.setOnLayerClickSetter(() => {
-        });
-        this.setOnLayerContainerClickSetter(() => {
-        });
+        this.setOnLayerClickSetter(() => {});
+        this.setOnLayerContainerClickSetter(() => {});
+        this.setOnLayerContainerMouseMoveSetter(() => {});
         $button.click(this.onActivate);
 
         Tool.tools.push(this);
@@ -47,6 +48,14 @@ export default class Tool {
         }
         return this;
     };
+
+    setOnLayerContainerMouseMoveSetter(onLayerContainerMouseMove){
+        this.onLayerContainerMouseMove = function(){
+            $(Tool.layerContainerQuery).off("mousemove");
+            $(Tool.layerContainerQuery).on("mousemove", onLayerContainerMouseMove);
+        }
+        return this;
+    }
 
 };
 Tool.tools = [];
